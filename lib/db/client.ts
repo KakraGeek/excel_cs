@@ -31,19 +31,17 @@ function initializeDb(): PrismaClient {
   const connectionString = process.env.DATABASE_URL;
 
   if (!connectionString) {
-    // Only throw error if we're actually trying to use the database
-    // During build time, if DATABASE_URL is not set, we'll defer the error
-    // This allows the build to complete even if env vars aren't set
-    if (process.env.NODE_ENV === 'production' && process.env.VERCEL) {
-      // On Vercel, we need DATABASE_URL, but we'll only fail when actually using it
-      console.warn('DATABASE_URL is not set. Database operations will fail at runtime.');
-    }
     throw new Error('DATABASE_URL environment variable is not set. Please configure it in your environment variables.');
   }
 
   // Initialize pool and adapter if not already done
+  // Use lazy connection - don't connect immediately
   if (!globalForPrisma.pool) {
-    globalForPrisma.pool = new Pool({ connectionString });
+    globalForPrisma.pool = new Pool({ 
+      connectionString,
+      // Don't connect during module initialization
+      // Connection will happen on first query
+    });
     globalForPrisma.adapter = new PrismaPg(globalForPrisma.pool);
   }
 
@@ -61,7 +59,8 @@ function initializeDb(): PrismaClient {
   return db;
 }
 
-// Initialize immediately, but this will only fail if DATABASE_URL is missing
-// and the code actually tries to use the database during build
-// For static pages that don't use the database, this won't be a problem
+// Initialize immediately - this is safe because:
+// 1. Pool doesn't connect until first query
+// 2. Prisma Client doesn't connect until first query
+// 3. Only fails if DATABASE_URL is missing (which should be set in Vercel)
 export const db = initializeDb();
