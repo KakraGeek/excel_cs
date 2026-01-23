@@ -1,0 +1,173 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// Admin Authentication Models (Story 6.1)
+// ============================================
+
+// Admin Users
+// Stores admin user accounts for authentication
+model AdminUser {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  passwordHash  String
+  name          String
+  role          String   @default("admin")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  contentUpdates ContentHistory[]
+  
+  @@index([email])
+}
+
+// ============================================
+// Booking System Models (Story 4.1)
+// ============================================
+
+// Appointments
+// Stores booking information for school tours, admissions consultations, etc.
+model Appointment {
+  id                String   @id @default(uuid())
+  appointmentType   String   // 'school_tour', 'admissions_consultation', 'general_inquiry', 'other'
+  appointmentDate   DateTime
+  appointmentTime   String
+  parentName        String
+  parentEmail       String
+  parentPhone       String
+  childName         String?
+  childAgeGrade     String?
+  additionalNotes   String?
+  status            String   @default("pending") // 'pending', 'confirmed', 'cancelled'
+  referenceNumber   String   @unique
+  adminNotes        String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  updatedBy         String?  // Admin user ID (will be linked in Story 6.1)
+  
+  // Relations
+  notifications     BookingNotification[]
+  
+  // Indexes for performance
+  @@index([appointmentDate])
+  @@index([status])
+  @@index([referenceNumber])
+}
+
+// Availability
+// Manages available time slots for appointments
+model Availability {
+  id                String   @id @default(uuid())
+  date              DateTime
+  timeSlot          String
+  isAvailable       Boolean  @default(true)
+  isBlocked         Boolean  @default(false)
+  recurringPattern  Json?    // e.g., {"dayOfWeek": 1, "startTime": "09:00", "endTime": "13:00"}
+  adminNotes        String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  updatedBy         String?  // Admin user ID (will be linked in Story 6.1)
+  
+  // Unique constraint: one availability record per date/time slot
+  @@unique([date, timeSlot])
+  @@index([date])
+  @@index([isAvailable, isBlocked])
+}
+
+// Booking Notifications
+// Tracks email notifications sent for bookings
+model BookingNotification {
+  id                String   @id @default(uuid())
+  appointmentId     String
+  notificationType  String   // 'booking_created', 'booking_confirmed', 'booking_cancelled', 'booking_rescheduled'
+  recipientEmail    String
+  sentAt            DateTime @default(now())
+  emailStatus        String   @default("sent") // 'sent', 'failed', 'pending'
+  
+  // Relations
+  appointment       Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  
+  // Indexes for performance
+  @@index([appointmentId])
+  @@index([sentAt])
+}
+
+// ============================================
+// Content Management Models (Story 6.3)
+// ============================================
+
+// Content Regions
+// Stores editable content regions for CMS functionality
+model ContentRegion {
+  id            String   @id @default(uuid())
+  regionId      String   @unique // e.g., 'about-welcome'
+  type          String   // 'text' or 'image_gallery'
+  page          String   // e.g., '/about-us'
+  position      String   // e.g., 'welcome-section'
+  content       Json     // Text content or image metadata
+  status        String   @default("published") // 'draft' or 'published'
+  version       Int      @default(1)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  updatedBy     String?  // Admin user ID
+  
+  // Relations
+  history       ContentHistory[]
+  images        ImageAsset[]
+  
+  @@index([page, position])
+  @@index([status])
+  @@index([regionId])
+}
+
+// Note: ImageAsset.galleryId stores the regionId string value for querying,
+// while ImageAsset.regionId is the foreign key to ContentRegion.id
+
+// Content History
+// Tracks version history of content region changes
+model ContentHistory {
+  id            String   @id @default(uuid())
+  regionId      String
+  content       Json
+  version       Int
+  updatedBy     String
+  updatedAt     DateTime @default(now())
+  
+  // Relations
+  region        ContentRegion @relation(fields: [regionId], references: [id], onDelete: Cascade)
+  admin         AdminUser     @relation(fields: [updatedBy], references: [id])
+  
+  @@index([regionId, version])
+}
+
+// Image Assets
+// Stores image metadata for galleries and content regions
+model ImageAsset {
+  id            String   @id @default(uuid())
+  galleryId     String   // ContentRegion.regionId value (e.g., 'gallery-preschool') - stored as string for querying
+  regionId      String   // Foreign key to ContentRegion.id
+  filename      String
+  url           String   // CDN URL or local path
+  altText       String
+  order         Int      @default(0)
+  width         Int?
+  height        Int?
+  fileSize      Int?     // bytes
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  region        ContentRegion @relation(fields: [regionId], references: [id], onDelete: Cascade)
+  
+  @@index([galleryId, order])
+  @@index([regionId])
+}
