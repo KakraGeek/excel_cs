@@ -47,17 +47,12 @@ const APPOINTMENT_TYPES = [
 // Zod schema for booking form validation
 const bookingFormSchema = z.object({
   appointmentType: z.enum(
-    ["school_tour", "admissions_consultation", "general_inquiry", "other"],
-    {
-      required_error: "Please select an appointment type",
-    }
+    ["school_tour", "admissions_consultation", "general_inquiry", "other"]
   ),
   appointmentDate: z.date({
-    required_error: "Please select a date",
+    message: "Please select a date",
   }),
-  appointmentTime: z.string({
-    required_error: "Please select a time slot",
-  }),
+  appointmentTime: z.string().min(1, "Please select a time slot"),
   parentName: z
     .string()
     .min(2, "Name must be at least 2 characters")

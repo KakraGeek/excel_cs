@@ -15,6 +15,7 @@ import { db } from '@/lib/db/client'
 import { getContentRegionById } from '@/lib/constants/content-regions'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
+import { Prisma } from '@prisma/client'
 
 /**
  * Validation schema for content update
@@ -173,7 +174,7 @@ export async function PATCH(
       await db.contentHistory.create({
         data: {
           regionId: existingRegion.id,
-          content: existingRegion.content,
+          content: existingRegion.content ?? Prisma.JsonNull,
           version: currentVersion,
           updatedBy: session.user.id,
         },
@@ -216,7 +217,7 @@ export async function PATCH(
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: 'Invalid request data', details: error.errors },
+        { error: 'Invalid request data', details: error.issues },
         { status: 400 }
       )
     }

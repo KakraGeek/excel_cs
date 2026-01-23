@@ -15,6 +15,7 @@ import { auth } from '@/lib/auth/config'
 import { db } from '@/lib/db/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
+import { Prisma } from '@prisma/client'
 
 export const runtime = 'nodejs'
 
@@ -54,7 +55,7 @@ export async function GET(request: NextRequest) {
       const patterns = await db.availability.findMany({
         where: {
           recurringPattern: {
-            not: null,
+            not: Prisma.JsonNull,
           },
         },
       })
@@ -180,6 +181,11 @@ export async function POST(request: NextRequest) {
 
     // Single update
     const validatedData = availabilitySchema.parse(body)
+    
+    if (!validatedData.date || !validatedData.timeSlot) {
+      return NextResponse.json({ error: 'date and timeSlot are required for single updates' }, { status: 400 })
+    }
+    
     const date = new Date(validatedData.date)
     date.setHours(0, 0, 0, 0)
 
@@ -191,13 +197,21 @@ export async function POST(request: NextRequest) {
         },
       },
       update: {
-        ...validatedData,
         date,
+        timeSlot: validatedData.timeSlot,
+        isAvailable: validatedData.isAvailable,
+        isBlocked: validatedData.isBlocked,
+        adminNotes: validatedData.adminNotes,
+        recurringPattern: validatedData.recurringPattern,
         updatedBy: session.user.id,
       },
       create: {
-        ...validatedData,
         date,
+        timeSlot: validatedData.timeSlot,
+        isAvailable: validatedData.isAvailable,
+        isBlocked: validatedData.isBlocked,
+        adminNotes: validatedData.adminNotes,
+        recurringPattern: validatedData.recurringPattern,
         updatedBy: session.user.id,
       },
     })
@@ -205,7 +219,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ availability })
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: 'Invalid request data', details: error.errors }, { status: 400 })
+      return NextResponse.json({ error: 'Invalid request data', details: error.issues }, { status: 400 })
     }
     console.error('Error setting availability:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

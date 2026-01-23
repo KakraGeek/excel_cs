@@ -12,6 +12,7 @@
 "use client"
 
 import dynamic from 'next/dynamic';
+import type { ContentRegionDefinition } from '@/lib/constants/content-regions';
 
 // Dynamic import for ContentEditor to reduce initial bundle size
 // This component is heavy due to Tiptap editor and rich text editing libraries
@@ -36,13 +37,7 @@ interface ContentEditorDynamicProps {
   initialContent: string;
   initialStatus: string;
   maxLength?: number;
-  regionDef: {
-    label: string;
-    type: string;
-    page: string;
-    position: string;
-    maxLength?: number;
-  };
+  regionDef: ContentRegionDefinition;
 }
 
 /**

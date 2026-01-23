@@ -16,9 +16,12 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
-import { Button, type ButtonProps } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { trackCTAClick } from "@/lib/utils/analytics"
+
+// Define ButtonProps from Button component props
+type ButtonProps = React.ComponentProps<typeof Button>
 
 // Define the CTA button variants
 type CTAVariant = "primary" | "secondary"

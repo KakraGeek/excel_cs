@@ -70,7 +70,10 @@ function getClientIP(request: NextRequest): string {
   }
 
   // Fallback to remote address
-  return request.ip || 'unknown';
+  // Fallback to remote address
+  return request.headers.get('x-forwarded-for')?.split(',')[0] || 
+         request.headers.get('x-real-ip') || 
+         'unknown';
 }
 
 /**
@@ -156,7 +159,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: 'Invalid form data',
-          details: error.errors,
+          details: error.issues,
         },
         { status: 400 } // Bad Request
       );

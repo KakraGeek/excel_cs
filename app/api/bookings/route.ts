@@ -26,11 +26,7 @@ import {
 // Zod schema for booking request validation
 const bookingRequestSchema = z.object({
   appointmentType: z.enum(
-    ['school_tour', 'admissions_consultation', 'general_inquiry', 'other'],
-    {
-      required_error: 'Appointment type is required',
-      invalid_type_error: 'Invalid appointment type',
-    }
+    ['school_tour', 'admissions_consultation', 'general_inquiry', 'other']
   ),
   appointmentDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
     message: 'Date must be in YYYY-MM-DD format',

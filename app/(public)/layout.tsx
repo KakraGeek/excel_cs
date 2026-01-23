@@ -17,6 +17,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import FAB from '@/components/layout/fab';
 import { PageViewTracker } from '@/components/analytics/page-view-tracker';
+import { Suspense } from 'react';
 
 export default function PublicLayout({
   children,
@@ -26,7 +27,9 @@ export default function PublicLayout({
   return (
     <div className="flex min-h-screen flex-col">
       {/* Page View Tracker - Tracks page views for analytics */}
-      <PageViewTracker />
+      <Suspense fallback={null}>
+        <PageViewTracker />
+      </Suspense>
       
       {/* Header - Navigation and logo */}
       <Header />

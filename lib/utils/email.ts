@@ -16,9 +16,20 @@ import { Resend } from 'resend'
 import { format } from 'date-fns'
 import { db } from '@/lib/db/client'
 
-// Initialize Resend client
-// RESEND_API_KEY should be set in environment variables
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy-load Resend client to avoid build-time initialization
+// This prevents errors when RESEND_API_KEY is not set during build
+let resendInstance: Resend | null = null
+
+function getResendClient(): Resend {
+  if (!resendInstance) {
+    const apiKey = process.env.RESEND_API_KEY
+    if (!apiKey) {
+      throw new Error('RESEND_API_KEY is not configured')
+    }
+    resendInstance = new Resend(apiKey)
+  }
+  return resendInstance
+}
 
 // Email configuration
 const EMAIL_CONFIG = {
@@ -421,6 +432,7 @@ export async function sendBookingConfirmationEmail(booking: {
     }
 
     // Send email via Resend
+    const resend = getResendClient()
     const result = await resend.emails.send({
       from: EMAIL_CONFIG.from,
       to: booking.parentEmail,
@@ -472,6 +484,7 @@ export async function sendAdminNotification(booking: {
     }
 
     // Send email via Resend
+    const resend = getResendClient()
     const result = await resend.emails.send({
       from: EMAIL_CONFIG.from,
       to: EMAIL_CONFIG.adminEmail,
@@ -660,6 +673,7 @@ export async function sendContactFormEmail(contactData: {
     }
 
     // Send email via Resend
+    const resend = getResendClient()
     const result = await resend.emails.send({
       from: EMAIL_CONFIG.from,
       to: EMAIL_CONFIG.adminEmail,

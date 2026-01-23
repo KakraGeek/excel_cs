@@ -39,7 +39,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // Lazy load authorize function (only needed in Node.js runtime)
         // This avoids importing Node.js modules (bcrypt, pg) in Edge runtime
         const authorizeAdmin = await getAuthorizeFunction()
-        return authorizeAdmin(credentials)
+        if (!credentials) return null
+        return authorizeAdmin({
+          email: credentials.email as string | undefined,
+          password: credentials.password as string | undefined,
+        })
       },
     }),
   ],

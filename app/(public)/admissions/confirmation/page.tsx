@@ -15,6 +15,7 @@
 
 "use client"
 
+import { Suspense } from 'react'
 import { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
@@ -63,6 +64,21 @@ const statusConfig: Record<string, { label: string; variant: 'default' | 'second
 }
 
 export default function BookingConfirmationPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="text-center space-y-4">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    }>
+      <BookingConfirmationContent />
+    </Suspense>
+  )
+}
+
+function BookingConfirmationContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [booking, setBooking] = useState<BookingData | null>(null)
