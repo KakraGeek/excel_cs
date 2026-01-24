@@ -16,6 +16,12 @@ import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { CONTENT_REGIONS } from '../lib/constants/content-regions';
+import { config } from 'dotenv';
+import path from 'path';
+
+// Load environment variables from .env.local
+const envPath = path.resolve(process.cwd(), '.env.local');
+config({ path: envPath });
 
 // Initialize Prisma Client with adapter (required for Prisma 7)
 const connectionString = process.env.DATABASE_URL;

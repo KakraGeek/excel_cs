@@ -3,7 +3,7 @@
  * 
  * This page displays the Pre-School gallery with photos of school activities.
  * - Parallax hero placeholder (static image for now - will be implemented in Epic 7)
- * - Gallery placeholder (will be populated via CMS later)
+ * - Gallery images from CMS
  * - Admissions CTA
  * 
  * This is a Server Component (default in Next.js App Router).
@@ -14,11 +14,18 @@
 import { BRANDING } from '@/lib/constants/branding';
 import { CTAButton } from '@/components/content/cta-button';
 import { ParallaxHero } from '@/components/content/parallax-hero';
+import { db } from '@/lib/db/client';
+import Image from 'next/image';
 
 // ISR: Revalidate every hour (3600 seconds)
 export const revalidate = 3600;
 
-export default function PreSchoolGalleryPage() {
+export default async function PreSchoolGalleryPage() {
+  // Fetch images for the pre-school gallery
+  const images = await db.imageAsset.findMany({
+    where: { galleryId: 'gallery-preschool' },
+    orderBy: { order: 'asc' },
+  });
   return (
     <div className="flex flex-col">
       <ParallaxHero 
@@ -42,46 +49,37 @@ export default function PreSchoolGalleryPage() {
               </p>
             </div>
             
-            {/* Gallery Placeholder - Will be populated via CMS later */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-              {/* Placeholder gallery items */}
-              <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                <p className="text-muted-foreground text-center px-4">
-                  Gallery images will be displayed here
+            {/* Gallery Images */}
+            {images.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                {images.map((image) => (
+                  <div
+                    key={image.id}
+                    className="group relative aspect-square overflow-hidden rounded-lg bg-gray-100 shadow-md hover:shadow-xl transition-shadow duration-300"
+                  >
+                    <Image
+                      src={image.url}
+                      alt={image.altText}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    {/* Overlay on hover */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                      <p className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm font-medium px-4 text-center">
+                        {image.altText}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">
+                  No images in the gallery yet. Check back soon!
                 </p>
               </div>
-              <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                <p className="text-muted-foreground text-center px-4">
-                  Gallery images will be displayed here
-                </p>
-              </div>
-              <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                <p className="text-muted-foreground text-center px-4">
-                  Gallery images will be displayed here
-                </p>
-              </div>
-              <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                <p className="text-muted-foreground text-center px-4">
-                  Gallery images will be displayed here
-                </p>
-              </div>
-              <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                <p className="text-muted-foreground text-center px-4">
-                  Gallery images will be displayed here
-                </p>
-              </div>
-              <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                <p className="text-muted-foreground text-center px-4">
-                  Gallery images will be displayed here
-                </p>
-              </div>
-            </div>
-            
-            <div className="text-center mt-8">
-              <p className="text-sm text-muted-foreground">
-                Gallery images will be managed through the admin CMS and displayed here automatically.
-              </p>
-            </div>
+            )}
           </div>
         </div>
       </section>

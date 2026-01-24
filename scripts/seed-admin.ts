@@ -22,8 +22,8 @@ import bcrypt from 'bcryptjs'
 import { config } from 'dotenv'
 import path from 'path'
 
-// Load environment variables from app/.env.local (project uses app/app/.env.local)
-const envPath = path.resolve(process.cwd(), 'app', '.env.local')
+// Load environment variables from .env.local
+const envPath = path.resolve(process.cwd(), '.env.local')
 config({ path: envPath })
 
 // Prisma 7 requires adapter for direct database connections

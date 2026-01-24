@@ -25,6 +25,13 @@ import { BRANDING } from '@/lib/constants/branding'
 import { format } from 'date-fns'
 import { CheckCircle2, Calendar, Clock, User, Mail, Phone, FileText, ArrowLeft, Loader2 } from 'lucide-react'
 
+// School contact information
+const SCHOOL_CONTACT = {
+  phone: '0244671446',
+  phoneSecondary: '0242834986',
+  email: 'info@excels.edu.gh',
+} as const
+
 /**
  * Type definition for booking data returned from API
  */
@@ -427,14 +434,21 @@ function BookingConfirmationContent() {
                 <p className="text-sm text-blue-900 dark:text-blue-100">
                   <strong>Need to make changes?</strong> Please contact us at{' '}
                   <a
-                    href="tel:+233XXXXXXXXX"
+                    href={`tel:+233${SCHOOL_CONTACT.phone.replace(/^0/, '')}`}
                     className="underline font-medium hover:text-blue-700 dark:hover:text-blue-300"
                   >
-                    {booking.parentPhone}
-                  </a>{' '}
-                  or{' '}
+                    {SCHOOL_CONTACT.phone}
+                  </a>
+                  {' / '}
                   <a
-                    href={`mailto:${booking.parentEmail}`}
+                    href={`tel:+233${SCHOOL_CONTACT.phoneSecondary.replace(/^0/, '')}`}
+                    className="underline font-medium hover:text-blue-700 dark:hover:text-blue-300"
+                  >
+                    {SCHOOL_CONTACT.phoneSecondary}
+                  </a>
+                  {' '}or{' '}
+                  <a
+                    href={`mailto:${SCHOOL_CONTACT.email}`}
                     className="underline font-medium hover:text-blue-700 dark:hover:text-blue-300"
                   >
                     email us

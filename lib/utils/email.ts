@@ -676,7 +676,7 @@ export async function sendContactFormEmail(contactData: {
     const resend = getResendClient()
     const result = await resend.emails.send({
       from: EMAIL_CONFIG.from,
-      to: EMAIL_CONFIG.adminEmail,
+      to: EMAIL_CONFIG.schoolEmail, // Always send to school's email address
       replyTo: contactData.email, // Allow admin to reply directly to the sender
       subject: `Contact Form: ${contactData.subject} | Excel Community School`,
       html: generateContactFormHTML(contactData),
@@ -684,7 +684,7 @@ export async function sendContactFormEmail(contactData: {
 
     // Log success
     console.log('Contact form email sent:', {
-      to: EMAIL_CONFIG.adminEmail,
+      to: EMAIL_CONFIG.schoolEmail,
       from: contactData.email,
       subject: contactData.subject,
       emailId: result.data?.id,

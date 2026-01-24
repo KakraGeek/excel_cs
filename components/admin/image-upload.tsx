@@ -7,7 +7,7 @@
 
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -21,6 +21,7 @@ type ImageUploadProps = {
 
 export function ImageUpload({ galleryId, maxImages, existingCount }: ImageUploadProps) {
   const router = useRouter()
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | null>(null)
   const [altText, setAltText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -32,7 +33,10 @@ export function ImageUpload({ galleryId, maxImages, existingCount }: ImageUpload
     event.preventDefault()
     setError('')
 
-    if (!file) {
+    // Get the file from the input ref as a fallback
+    const selectedFile = file || fileInputRef.current?.files?.[0] || null
+
+    if (!selectedFile) {
       setError('Please select an image file.')
       return
     }
@@ -42,12 +46,12 @@ export function ImageUpload({ galleryId, maxImages, existingCount }: ImageUpload
       return
     }
 
-    if (file.size > 2 * 1024 * 1024) {
+    if (selectedFile.size > 2 * 1024 * 1024) {
       setError('Image must be 2MB or smaller.')
       return
     }
 
-    const isValidType = ['image/jpeg', 'image/png'].includes(file.type)
+    const isValidType = ['image/jpeg', 'image/png'].includes(selectedFile.type)
     if (!isValidType) {
       setError('Only JPG and PNG images are supported.')
       return
@@ -59,7 +63,7 @@ export function ImageUpload({ galleryId, maxImages, existingCount }: ImageUpload
       const formData = new FormData()
       formData.append('galleryId', galleryId)
       formData.append('altText', altText.trim())
-      formData.append('file', file)
+      formData.append('file', selectedFile)
 
       const response = await fetch('/api/admin/images/upload', {
         method: 'POST',
@@ -74,6 +78,10 @@ export function ImageUpload({ galleryId, maxImages, existingCount }: ImageUpload
 
       setAltText('')
       setFile(null)
+      // Reset the file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
       router.refresh()
     } catch (uploadError) {
       setError('Upload failed. Please try again.')
@@ -103,11 +111,24 @@ export function ImageUpload({ galleryId, maxImages, existingCount }: ImageUpload
         <Label htmlFor="image-file">Image File (JPG/PNG, max 2MB)</Label>
         <Input
           id="image-file"
+          ref={fileInputRef}
           type="file"
           accept="image/jpeg,image/png"
           disabled={isLoading || isAtLimit}
-          onChange={(event) => setFile(event.target.files?.[0] || null)}
+          onChange={(event) => {
+            const selectedFile = event.target.files?.[0] || null
+            setFile(selectedFile)
+            // Clear error when a file is selected
+            if (selectedFile) {
+              setError('')
+            }
+          }}
         />
+        {file && (
+          <p className="text-sm text-gray-600">
+            Selected: {file.name} ({(file.size / 1024).toFixed(1)} KB)
+          </p>
+        )}
       </div>
 
       <div className="space-y-2">

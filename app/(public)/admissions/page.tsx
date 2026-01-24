@@ -19,6 +19,7 @@ import { BRANDING } from '@/lib/constants/branding';
 import { ScrollToBookingFormButton } from '@/components/admissions/admissions-page-client';
 import { ParallaxHero } from '@/components/content/parallax-hero';
 import { BookingFormDynamic } from '@/components/admissions/booking-form-dynamic';
+import { FileText, ClipboardList, HeartPulse } from 'lucide-react';
 
 export default function AdmissionsPage() {
   return (
@@ -143,9 +144,14 @@ export default function AdmissionsPage() {
             {/* Download Links - Placeholder for now */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-gray-50 rounded-lg p-6 text-center">
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Admission Requirements
-                </h3>
+                <div className="flex flex-col items-center mb-4">
+                  <div className="p-3 rounded-lg mb-3" style={{ backgroundColor: `${BRANDING.colors.primary}15` }}>
+                    <FileText className="w-6 h-6" style={{ color: BRANDING.colors.primary }} />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground">
+                    Admission Requirements
+                  </h3>
+                </div>
                 <p className="text-sm text-muted-foreground mb-4">
                   View admission requirements document
                 </p>
@@ -159,9 +165,14 @@ export default function AdmissionsPage() {
               </div>
 
               <div className="bg-gray-50 rounded-lg p-6 text-center">
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Admission Form
-                </h3>
+                <div className="flex flex-col items-center mb-4">
+                  <div className="p-3 rounded-lg mb-3" style={{ backgroundColor: `${BRANDING.colors.accent}15` }}>
+                    <ClipboardList className="w-6 h-6" style={{ color: BRANDING.colors.accent }} />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground">
+                    Admission Form
+                  </h3>
+                </div>
                 <p className="text-sm text-muted-foreground mb-4">
                   Download the admission form
                 </p>
@@ -175,9 +186,14 @@ export default function AdmissionsPage() {
               </div>
 
               <div className="bg-gray-50 rounded-lg p-6 text-center">
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Health Requirements
-                </h3>
+                <div className="flex flex-col items-center mb-4">
+                  <div className="p-3 rounded-lg mb-3" style={{ backgroundColor: `${BRANDING.colors.primary}15` }}>
+                    <HeartPulse className="w-6 h-6" style={{ color: BRANDING.colors.primary }} />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground">
+                    Health Requirements
+                  </h3>
+                </div>
                 <p className="text-sm text-muted-foreground mb-4">
                   View health requirements document
                 </p>

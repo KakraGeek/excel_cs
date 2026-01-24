@@ -18,6 +18,7 @@
 import { BRANDING } from '@/lib/constants/branding';
 import { CTAButton } from '@/components/content/cta-button';
 import { ParallaxHero } from '@/components/content/parallax-hero';
+import { Shield, Heart, Award } from 'lucide-react';
 
 // ISR: Revalidate every hour (3600 seconds)
 // This ensures content updates are reflected within an hour
@@ -164,9 +165,14 @@ export default function AboutUsPage() {
             {/* Values Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
               <div className="bg-white border border-border rounded-lg p-6 shadow-sm">
-                <h3 className="text-xl font-semibold text-foreground mb-3">
-                  Integrity
-                </h3>
+                <div className="flex flex-col items-start mb-4">
+                  <div className="p-3 rounded-lg mb-3" style={{ backgroundColor: `${BRANDING.colors.primary}15` }}>
+                    <Shield className="w-6 h-6" style={{ color: BRANDING.colors.primary }} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Integrity
+                  </h3>
+                </div>
                 <p className="text-muted-foreground">
                   We believe that our students must be truthful at all times. They must speak what 
                   they think and do what they speak.
@@ -174,19 +180,29 @@ export default function AboutUsPage() {
               </div>
               
               <div className="bg-white border border-border rounded-lg p-6 shadow-sm">
-                <h3 className="text-xl font-semibold text-foreground mb-3">
-                  Tolerance
-                </h3>
+                <div className="flex flex-col items-start mb-4">
+                  <div className="p-3 rounded-lg mb-3" style={{ backgroundColor: `${BRANDING.colors.accent}15` }}>
+                    <Heart className="w-6 h-6" style={{ color: BRANDING.colors.accent }} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Tolerance
+                  </h3>
+                </div>
                 <p className="text-muted-foreground">
                   We believe that students must learn to be accommodating and respectful of each 
                   other in all situations.
                 </p>
               </div>
               
-              <div className="bg-white border border-border rounded-lg p-6 shadow-sm">
-                <h3 className="text-xl font-semibold text-foreground mb-3">
-                  Dignity and Respect
-                </h3>
+              <div className="bg-white border border-border rounded-lg p-6 shadow-sm md:col-span-2">
+                <div className="flex flex-col items-start mb-4">
+                  <div className="p-3 rounded-lg mb-3" style={{ backgroundColor: `${BRANDING.colors.primary}15` }}>
+                    <Award className="w-6 h-6" style={{ color: BRANDING.colors.primary }} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Dignity and Respect
+                  </h3>
+                </div>
                 <p className="text-muted-foreground">
                   Through our quality learning and teaching, we seek to develop in each child a 
                   sense of achievement and self-esteem.

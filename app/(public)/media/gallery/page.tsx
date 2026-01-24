@@ -17,6 +17,7 @@ import { BRANDING } from '@/lib/constants/branding';
 import { CTAButton } from '@/components/content/cta-button';
 import Link from 'next/link';
 import { ParallaxHero } from '@/components/content/parallax-hero';
+import Image from 'next/image';
 
 // ISR: Revalidate every hour (3600 seconds)
 export const revalidate = 3600;
@@ -53,23 +54,14 @@ export default function GalleryIndexPage() {
                 href="/media/gallery/pre-school"
                 className="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-border"
               >
-                <div className="aspect-video bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
-                  <div className="text-center space-y-2">
-                    <svg 
-                      className="w-16 h-16 mx-auto text-blue-600 group-hover:scale-110 transition-transform duration-300" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" 
-                      />
-                    </svg>
-                    <p className="text-sm text-blue-600 font-medium">Pre-School Gallery</p>
-                  </div>
+                <div className="aspect-video relative overflow-hidden bg-gray-100">
+                  <Image
+                    src="/images/gallery/pre-1.png"
+                    alt="Pre-School Gallery Preview"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
                 </div>
                 <div className="p-6">
                   <h3 className="text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
@@ -103,23 +95,14 @@ export default function GalleryIndexPage() {
                 href="/media/gallery/primary-school"
                 className="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-border"
               >
-                <div className="aspect-video bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
-                  <div className="text-center space-y-2">
-                    <svg 
-                      className="w-16 h-16 mx-auto text-blue-600 group-hover:scale-110 transition-transform duration-300" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" 
-                      />
-                    </svg>
-                    <p className="text-sm text-blue-600 font-medium">Primary School Gallery</p>
-                  </div>
+                <div className="aspect-video relative overflow-hidden bg-gray-100">
+                  <Image
+                    src="/images/gallery/pri-5.png"
+                    alt="Primary School Gallery Preview"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
                 </div>
                 <div className="p-6">
                   <h3 className="text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
