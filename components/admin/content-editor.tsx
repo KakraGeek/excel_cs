@@ -69,6 +69,7 @@ export function ContentEditor({
   const [previewMode, setPreviewMode] = useState(false)
 
   // Initialize Tiptap editor
+  // immediatelyRender: false is required to avoid SSR hydration mismatches
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -84,6 +85,7 @@ export function ContentEditor({
       }),
     ],
     content: initialContent,
+    immediatelyRender: false, // Required for SSR compatibility
     editorProps: {
       attributes: {
         class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-xl focus:outline-none min-h-[300px] p-4',
