@@ -48,27 +48,42 @@ export default function AboutUsPage() {
               <div className="w-24 h-1 mx-auto" style={{ backgroundColor: BRANDING.colors.primary }}></div>
             </div>
             
-            <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed space-y-4">
-              <p>
-                Welcome to the website of EXCEL Community School (ECS). We hope that the information 
-                provided here will be informative enough to help you have a better understanding of 
-                our school, its programmes, facilities and staff.
-              </p>
-              <p>
-                You will also find here information on the achievements of our children and the 
-                exciting opportunities we provide. Here at ECS, we strive to make each family feel 
-                welcome as we work together to prepare our children for the future.
-              </p>
-              <p>
-                In line with our Motto, <strong>A passion to Excel</strong>, we are passionate about 
-                creating a learning environment that helps build the confidence of the child and 
-                stimulate their young minds to bring out the creativity in them through our rich curriculum.
-              </p>
-              <p>
-                We invite you to explore our website and enjoy our rich gallery which contains 
-                memorable photos of school activities and events. Feel free to leave comments and 
-                suggestions in the comments sections provided at the bottom of this page.
-              </p>
+            {/* Principal Image and Message Layout */}
+            <div className="flex flex-col md:flex-row gap-8 items-start">
+              {/* Principal Image */}
+              <div className="flex-shrink-0 w-full md:w-64 lg:w-80 mx-auto md:mx-0">
+                <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg">
+                  <img
+                    src="/images/about-us/principal.png"
+                    alt="Caroline Torshie Arbenser, Principal of Excel Community School"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              
+              {/* Welcome Message Text */}
+              <div className="flex-1 prose prose-lg max-w-none text-muted-foreground leading-relaxed space-y-4">
+                <p>
+                  Welcome to the website of EXCEL Community School (ECS). We hope that the information 
+                  provided here will be informative enough to help you have a better understanding of 
+                  our school, its programmes, facilities and staff.
+                </p>
+                <p>
+                  You will also find here information on the achievements of our children and the 
+                  exciting opportunities we provide. Here at ECS, we strive to make each family feel 
+                  welcome as we work together to prepare our children for the future.
+                </p>
+                <p>
+                  In line with our Motto, <strong>A passion to Excel</strong>, we are passionate about 
+                  creating a learning environment that helps build the confidence of the child and 
+                  stimulate their young minds to bring out the creativity in them through our rich curriculum.
+                </p>
+                <p>
+                  We invite you to explore our website and enjoy our rich gallery which contains 
+                  memorable photos of school activities and events. Feel free to leave comments and 
+                  suggestions in the comments sections provided at the bottom of this page.
+                </p>
+              </div>
             </div>
           </div>
         </div>

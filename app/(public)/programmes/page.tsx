@@ -16,6 +16,16 @@
 import { BRANDING } from '@/lib/constants/branding';
 import { CTAButton } from '@/components/content/cta-button';
 import { ParallaxHero } from '@/components/content/parallax-hero';
+import { 
+  FlaskConical, 
+  ChefHat, 
+  Music, 
+  Dumbbell, 
+  Shield, 
+  Waves, 
+  BookOpen, 
+  Palette 
+} from 'lucide-react';
 
 // ISR: Revalidate every hour (3600 seconds)
 // This ensures content updates are reflected within an hour
@@ -186,6 +196,140 @@ export default function ProgrammesPage() {
               >
                 Learn More About Admissions
               </CTAButton>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Co-Curricular Activities Section */}
+      <section className="w-full bg-gray-50 py-12 md:py-16 lg:py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto space-y-8">
+            <div className="text-center space-y-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                Co-Curricular Activities & Clubs
+              </h2>
+              <div className="w-24 h-1 mx-auto" style={{ backgroundColor: BRANDING.colors.accent }}></div>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                At Excel Community School, we believe in nurturing well-rounded individuals. Our diverse range 
+                of clubs and activities provides students with opportunities to explore their interests, develop 
+                new skills, and build lasting friendships.
+              </p>
+            </div>
+            
+            {/* Clubs Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+              <div className="bg-white border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: `${BRANDING.colors.primary}15` }}>
+                    <FlaskConical className="w-6 h-6" style={{ color: BRANDING.colors.primary }} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Club Scientific
+                  </h3>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  Explore the wonders of science through hands-on experiments and scientific discovery.
+                </p>
+              </div>
+              
+              <div className="bg-white border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: `${BRANDING.colors.accent}15` }}>
+                    <ChefHat className="w-6 h-6" style={{ color: BRANDING.colors.accent }} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Cooks on the Run
+                  </h3>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  Learn culinary skills and the art of cooking in a fun and engaging environment.
+                </p>
+              </div>
+              
+              <div className="bg-white border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: `${BRANDING.colors.primary}15` }}>
+                    <Music className="w-6 h-6" style={{ color: BRANDING.colors.primary }} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Performing Arts
+                  </h3>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  Express creativity through drama, music, dance, and theatrical performances.
+                </p>
+              </div>
+              
+              <div className="bg-white border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: `${BRANDING.colors.accent}15` }}>
+                    <Dumbbell className="w-6 h-6" style={{ color: BRANDING.colors.accent }} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Sports and Fitness Club
+                  </h3>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  Stay active and healthy through various sports activities and fitness programs.
+                </p>
+              </div>
+              
+              <div className="bg-white border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: `${BRANDING.colors.primary}15` }}>
+                    <Shield className="w-6 h-6" style={{ color: BRANDING.colors.primary }} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Kids Cadet
+                  </h3>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  Develop discipline, leadership skills, and teamwork through cadet training activities.
+                </p>
+              </div>
+              
+              <div className="bg-white border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: `${BRANDING.colors.accent}15` }}>
+                    <Waves className="w-6 h-6" style={{ color: BRANDING.colors.accent }} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Swimming
+                  </h3>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  Learn essential swimming skills and water safety in a supervised environment.
+                </p>
+              </div>
+              
+              <div className="bg-white border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: `${BRANDING.colors.primary}15` }}>
+                    <BookOpen className="w-6 h-6" style={{ color: BRANDING.colors.primary }} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Read Runners
+                  </h3>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  Foster a love for reading through book discussions, reading challenges, and literary activities.
+                </p>
+              </div>
+              
+              <div className="bg-white border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: `${BRANDING.colors.accent}15` }}>
+                    <Palette className="w-6 h-6" style={{ color: BRANDING.colors.accent }} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Kids Arts
+                  </h3>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  Unleash artistic talents through drawing, painting, crafts, and creative expression.
+                </p>
+              </div>
             </div>
           </div>
         </div>

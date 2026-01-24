@@ -25,8 +25,8 @@ export default function AdmissionsPage() {
     <div className="flex flex-col">
       <ParallaxHero 
         title="Admissions" 
-        subtitle="Providing Total Academic Solution"
-        backgroundImage="https://images.unsplash.com/photo-1544531585-9847b68c8c86?q=80&w=2070&auto=format&fit=crop"
+        subtitle="Providing Total Academic Solutions"
+        backgroundImage="/images/hero/admissions.webp"
       />
 
       {/* Admission Requirements Section */}

@@ -36,7 +36,7 @@ export default function Header() {
               className="h-10 w-auto"
               priority
             />
-            <span className="hidden sm:inline-block text-lg font-semibold text-primary">
+            <span className="text-sm sm:text-lg font-semibold text-primary">
               Excel Community School
             </span>
           </Link>

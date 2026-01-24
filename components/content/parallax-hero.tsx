@@ -46,7 +46,9 @@ export const ParallaxHero: React.FC<ParallaxHeroProps> = ({
   const [isMobile, setIsMobile] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [shouldLoadImage, setShouldLoadImage] = useState(priority); // Load immediately if priority
+  const [backgroundOffset, setBackgroundOffset] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // 1. Check for reduced motion preference
@@ -95,6 +97,70 @@ export const ParallaxHero: React.FC<ParallaxHeroProps> = ({
     };
   }, [backgroundImage, priority]);
 
+  // 4. JavaScript-based parallax effect for mobile devices
+  useEffect(() => {
+    if (!backgroundImage || !imageLoaded || prefersReducedMotion || !isMobile || !sectionRef.current) {
+      setBackgroundOffset(0);
+      return;
+    }
+
+    let rafId: number | null = null;
+
+    const updateParallax = () => {
+      if (!sectionRef.current) return;
+      
+      const rect = sectionRef.current.getBoundingClientRect();
+      const sectionTop = rect.top;
+      const sectionHeight = rect.height;
+      const windowHeight = window.innerHeight;
+      const scrollY = window.scrollY;
+      
+      // Parallax effect: background moves slower than content
+      // Speed factor: 0.7 means background moves at 70% of scroll speed (more noticeable)
+      const parallaxSpeed = 0.7;
+      
+      if (sectionTop <= windowHeight && sectionTop + sectionHeight >= 0) {
+        // Section is visible - calculate parallax based on scroll position
+        // Get the section's position relative to document
+        const sectionOffsetTop = sectionRef.current.offsetTop;
+        const scrollProgress = scrollY - sectionOffsetTop;
+        
+        // Background moves at parallaxSpeed relative to scroll
+        // As you scroll down, background moves up slower (negative offset)
+        // But we want it to move down (positive offset) to create depth
+        const offset = scrollProgress * parallaxSpeed;
+        setBackgroundOffset(Math.max(0, offset));
+      } else if (sectionTop > windowHeight) {
+        // Section hasn't entered viewport
+        setBackgroundOffset(0);
+      } else {
+        // Section has scrolled past - keep max offset
+        const maxOffset = sectionHeight * parallaxSpeed;
+        setBackgroundOffset(maxOffset);
+      }
+    };
+
+    const handleScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        updateParallax();
+        rafId = null;
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+    updateParallax(); // Initial calculation
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+    };
+  }, [backgroundImage, imageLoaded, prefersReducedMotion, isMobile]);
+
   // Preload image when shouldLoadImage becomes true
   useEffect(() => {
     if (backgroundImage && shouldLoadImage && !imageLoaded) {
@@ -120,10 +186,11 @@ export const ParallaxHero: React.FC<ParallaxHeroProps> = ({
       {/* 
         Background Layer
         On desktop, we use bg-fixed for the "fixed background" effect.
-        On mobile, we use standard scrolling background for performance and iOS compatibility.
+        On mobile, we use JavaScript-based parallax scrolling for better compatibility.
       */}
       {backgroundImage && shouldLoadImage && (
         <div
+          ref={backgroundRef}
           className={cn(
             "absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500",
             imageLoaded ? "opacity-100" : "opacity-0",
@@ -133,6 +200,18 @@ export const ParallaxHero: React.FC<ParallaxHeroProps> = ({
             backgroundImage: imageLoaded
               ? `url("${backgroundImage.includes('unsplash.com') ? `${backgroundImage}&auto=format&fit=crop&q=80` : backgroundImage}")`
               : "none",
+            // Apply parallax offset for mobile devices
+            ...(isMobile && !prefersReducedMotion && imageLoaded
+              ? {
+                  // Extend background beyond container to allow parallax movement
+                  top: '-20%',
+                  bottom: '-20%',
+                  height: '140%',
+                  transform: `translateY(${backgroundOffset}px)`,
+                  willChange: "transform",
+                  transition: "none", // Disable transition for smooth parallax
+                }
+              : {}),
           }}
           aria-hidden="true"
         >

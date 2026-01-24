@@ -23,7 +23,34 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Excel Community School",
-  description: "Passion to Excel",
+  description: "Passion to Excel - Providing high-quality education in a safe and happy learning environment that builds a foundation for life-long learning.",
+  icons: {
+    icon: '/icon.png',
+    apple: '/apple-icon.png',
+  },
+  openGraph: {
+    title: "Excel Community School",
+    description: "Passion to Excel - Providing high-quality education in a safe and happy learning environment that builds a foundation for life-long learning.",
+    url: "https://excels.edu.gh",
+    siteName: "Excel Community School",
+    images: [
+      {
+        url: "/brand/excelcs_logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Excel Community School Logo",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Excel Community School",
+    description: "Passion to Excel - Providing high-quality education in a safe and happy learning environment.",
+    images: ["/brand/excelcs_logo.png"],
+  },
+  metadataBase: new URL(process.env.NEXTAUTH_URL || "https://excels.edu.gh"),
 };
 
 export default function RootLayout({
