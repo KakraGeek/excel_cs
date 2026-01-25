@@ -7,6 +7,7 @@
 import { auth } from '@/lib/auth/config'
 import { redirect } from 'next/navigation'
 import { AvailabilityCalendar } from '@/components/admin/availability-calendar'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
 
 export default async function AdminAvailabilityPage() {
   const session = await auth()
@@ -17,12 +18,10 @@ export default async function AdminAvailabilityPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Manage Availability</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Control when parents can book appointments. Set specific time slots as available or block entire days.
-        </p>
-      </div>
+      <AdminPageHeader
+        title="Manage Availability"
+        description="Control when parents can book appointments. Set specific time slots as available or block entire days"
+      />
 
       <AvailabilityCalendar />
     </div>

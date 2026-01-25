@@ -23,6 +23,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { FileText, Edit, Calendar, CheckCircle, Clock } from 'lucide-react'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
 
 /**
  * Format date for display
@@ -96,12 +97,10 @@ export default async function ContentManagementPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Content Management</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Manage and edit content regions across the website
-        </p>
-      </div>
+      <AdminPageHeader
+        title="Content Management"
+        description="Manage and edit content regions across the website"
+      />
 
       {/* Content Regions by Page */}
       <div className="space-y-6">

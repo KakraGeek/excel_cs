@@ -19,6 +19,7 @@ import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Calendar, Clock, User, Mail, Phone, ArrowRight } from 'lucide-react'
+import { AdminNav } from '@/components/admin/admin-nav'
 
 /**
  * Format appointment type for display
@@ -83,14 +84,20 @@ export default async function AdminDashboardPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Page Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Welcome back, {session.user?.name || 'Admin'}. Here&apos;s an overview of recent activity.
-        </p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Admin Navigation */}
+      <AdminNav />
+      
+      {/* Main Content */}
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="space-y-6">
+          {/* Page Header */}
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+            <p className="mt-2 text-sm text-gray-600">
+              Welcome back, {session.user?.name || 'Admin'}. Here&apos;s an overview of recent activity.
+            </p>
+          </div>
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -280,6 +287,8 @@ export default async function AdminDashboardPage() {
           </div>
         </CardContent>
       </Card>
+        </div>
+      </div>
     </div>
   )
 }

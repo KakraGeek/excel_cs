@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { db } from '@/lib/db/client'
 import { getImageGalleryRegions } from '@/lib/constants/content-regions'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
 
 export default async function ImageGalleryListPage() {
   const galleries = getImageGalleryRegions()
@@ -25,12 +26,10 @@ export default async function ImageGalleryListPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Image Galleries</h1>
-        <p className="text-sm text-gray-600">
-          Manage images for the school galleries.
-        </p>
-      </div>
+      <AdminPageHeader
+        title="Image Galleries"
+        description="Manage images for the school galleries"
+      />
 
       <div className="grid gap-4 md:grid-cols-2">
         {galleries.map((gallery) => (
