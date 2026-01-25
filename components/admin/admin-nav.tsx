@@ -70,8 +70,7 @@ export function AdminNav() {
           <div className="flex items-center space-x-1">
             {NAV_ITEMS.map((item) => {
               // Check if current route matches or starts with this nav item's href
-              const isActive = pathname === item.href || 
-                (item.href !== '/admin/dashboard' && pathname.startsWith(item.href))
+              const isActive = pathname === item.href || pathname.startsWith(item.href)
               
               return (
                 <Link
