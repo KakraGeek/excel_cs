@@ -196,10 +196,13 @@ export default function FAB() {
         onClick={toggleExpanded}
         onBlur={(e) => {
           // Close if focus moves outside the FAB container
-          if (!e.currentTarget.parentElement?.contains(e.relatedTarget as Node)) {
+          // Check if parentElement exists before accessing its properties
+          const parentElement = e.currentTarget.parentElement;
+          if (parentElement && !parentElement.contains(e.relatedTarget as Node)) {
             // Small delay to allow clicking on menu items
             setTimeout(() => {
-              if (document.activeElement?.closest('[role="complementary"]') !== e.currentTarget.parentElement) {
+              // Check if parentElement still exists and compare with active element's closest parent
+              if (parentElement && document.activeElement?.closest('[role="complementary"]') !== parentElement) {
                 handleClose();
               }
             }, 100);
